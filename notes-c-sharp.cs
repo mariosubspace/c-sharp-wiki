@@ -1000,7 +1000,6 @@ var anon = new { Title = "Hello", Author = "Unknown" };
 // * Use the unsafe keyword for blocks and methods.
 
 // 'unsafe'
-
 class Program
 {
   static void Main(string[] args)
@@ -1018,10 +1017,9 @@ class Program
   }
 }
 
+// Entire struct is unsafe.
 unsafe struct Node
-{
-  // Entire struct is unsafe/
-}
+{ /* ... */ }
 
 struct Node
 {
@@ -1036,15 +1034,18 @@ struct Node
   public Node *left, *right; // C, C++
 
 // 'stackalloc'
-
 char* p = stackalloc char[256]; // Declare memory on the stack.
 
 // 'fixed'
-
 // To prevent a ReferenceType from being sweeped or moved by the GC while
 // you are using it's address, use the 'fixed' keyword and scope.
-
 fixed (MyRefType* p = &refVar)
 {
   Console.Write(p->ToString());
 }
+
+// 'sizeof'
+Console.Write(sizeof(int));
+
+// Must be in 'unsafe' block for custom types.
+unsafe { Console.Write(sizeof(Point)); }
