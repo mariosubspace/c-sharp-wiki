@@ -289,10 +289,9 @@ using static ClassWithStaticMembers;
 * `protected` - private + children.  
 * `internal` - Only within the assembly.  
 * `protected internal`- Protected and within the assembly (no external children).  
-
-
 * Types are implicitly internal.  
 * Members are implicitly private.  
+
 
 # Properties
 
@@ -471,7 +470,7 @@ class SomeClass : IClashing, IAlsoClashing
 }
 ```
 
-You need to explicitly cast the object to the interface type to use the clashing methods.
+You need to explicitly cast to the specific interface type to use a clashing method.
 ```cs
 (someClass as IClashing)?.ClashingMethod();
 
