@@ -156,6 +156,8 @@ Unnamed, ordered parameters must come first though.
 LogEvent(msg, color: Color.red);
 ```
 
+You can also use default parameters in constructors above .NET 4.0.
+
 # Enums
 
 ```cs
@@ -249,6 +251,235 @@ Card cardA = deckA?.Get(1);
 ```
 
 If `deckA` turns out to be null, it will return null and not call `Get()`.
+
+# Constructors
+
+### Chaining
+
+```cs
+public Card(char rank, char suit) { } // Master constructor.
+public Card() : this('2', 'C') { } // Use master constructor.
+```
+
+### Static
+
+You can initialize static variables with the static constructor.
+
+```cs
+static MyStaticConstructor()
+{
+  // No access modifiers allowed.
+}
+```
+
+This is called only once on first instantiation of the class, or on static member access.
+
+# Static Import
+
+You can import static members with `using static`.
+
+```cs
+using static ClassWithStaticMembers;
+```
+
+# Access Modifiers
+
+* `public` - Open to everyone.  
+* `private` - Only members of the class.  
+* `protected` - private + children.  
+* `internal` - Only within the assembly.  
+* `protected internal`- Protected and within the assembly (no external children).  
+
+
+* Types are implicitly internal.  
+* Members are implicitly private.  
+
+# Properties
+
+A basic .NET property:
+```cs
+int myInt;
+
+public int SomeInt
+{
+  get
+  {
+    return myInt;
+  }
+  set
+  {
+    myInt = value;
+  }
+}
+```
+
+### Auto-Properties
+
+```cs
+public int SomeInt { get; set; }
+```
+
+This uses a private field internally and sets that to a default value.
+
+For ReferenceTypes, the default value is null; which can be a problem. In many cases,
+the default value will not be what you want. The solution to this is to assign a default
+value in the constructor. Alternatively, C# 6.0 includes a special syntax.
+
+```cs
+public string SomeString { get; set; } = "Default value.";
+```
+
+# Object Initialization Syntax
+
+You can use object-literal notation in constructing an object.
+```cs
+Card c = new Card { Rank = '5', Suit = 'D' };
+Card c = new Card() { Rank = '5', Suit = 'D' }; // Equivalent to above.
+Card c = new Card(suit: 'D') { Rank = '5' }; // You can get crazy with this.
+```
+
+The names in the brackets are public fields of the Card class, not the names
+of the parameters in the constructor.
+
+
+# Read-Only Fields
+
+* A `const` field must be assigned at the time of the declaration.
+* A `readonly` field can be assigned at declaration or in the constructor.
+
+`const` is implicitly static.
+```cs
+public const int PI = 3.1415f;
+```
+
+`readonly` is an instance variable.
+```cs
+public readonly DateTime INITIALIZED;
+
+public MyBrand()
+{
+  INITIALIZED = DateTime.Now;
+}
+```
+
+`static` can be used with `readonly`, which is almost like `const`
+```cs
+public static readonly DateTime FIRST_INITIALIZATION;
+
+static MyBrand()
+{ // The difference is you can use a static constructor to initialize it.
+  FIRST_INITIALIZATION = DateTime.Now;
+}
+```
+
+# Partial classes
+
+The `partial` keyword allows classes to be split among multiple files. The file names don't matter,
+only that the class name and namespace are the same.
+
+This is one way you could split things up:
+
+```cs
+// Cookie.cs
+partial class Cookie
+{
+  // Methods
+  // Properties
+}
+```
+
+```cs
+// Cookie.Boilerplate.cs
+partial class Cookie
+{
+  // Field data
+  // Constructors
+}
+```
+
+# The 'Sealed' Keyword
+
+This keyword prevents a class from being extended.
+```cs
+sealed class MySealedClass { }
+```
+
+# The 'Base' Keyword
+
+Just like Java's `super`, C# has the `base` keyword to call a parent ctor.
+```cs
+public MyClass(int a, string b) : base(a)
+{
+  this.b = b;
+}
+```
+
+You of course can use `base` to access members of the base class as well.
+
+# Polymorphism
+
+You can mark a method as overrideable with the `virtual` keyword.
+```cs
+public virtual void OverrideableMethod() { }
+
+// Then, in the child class:
+public override void OverrideableMethod() { }
+```
+
+You can call the parent method with:
+```cs
+base.OverrideableMethod();
+```
+
+You can prevent a method from further being overridden by sealing it.
+```cs
+public override sealed void OverrideableMethod() { }
+```
+
+# Abstract Classes
+
+```cs
+abstract class MyAbstractClass
+{
+  public abstract void AbstractMethod();
+}
+
+class AnotherClass : MyAbstractClass
+{
+  public override void AbstractMethod() { /* ... */ }
+}
+```
+
+# Class Cast Checking
+
+### The 'AS' Keyword
+_Null if not type._
+```cs
+Deck d = someObject as Deck;
+if (d != null) d.Shuffle();
+```
+
+### The 'IS' Keyword
+_False if not type._
+```cs
+if (someObject is Deck)
+{
+  ((Deck)someObject).Shuffle();
+}
+```
+
+# Shadowing
+
+Instead of overriding, you can completely replace (shadow) the parent method, property or field.
+```cs
+public new int MyProperty { get; set; }
+public new void MyMethod() { }
+```
+
+You can still access the parent's original member by explicit casting.
+```cs
+((Parent)child).MyMethod();
+```
 
 # Overflow Checking
 
