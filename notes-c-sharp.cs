@@ -1,29 +1,4 @@
 
-/*** NULLABLE ***/
-
-// ValueTypes cannot be assigned null. They must be wrapped in Nullable<T>.
-System.Nullable<int> i = null;
-
-// There is a convenient shorthand for this, (?):
-int? i = null;
-bool? b = null;
-float? t = 0.1f;
-
-// The NULL COALESCING OPERATOR (??) assigns an alternate value if null.
-int? a = null;
-int b = a ?? 0; // If a is null, use 0.
-
-Card cardA = null; // Can use ReferenceTypes too.
-Card cardB = cardA ?? new Card("2C");
-
-// The NULL CONDITIONAL OPERATOR (?.) provides safe method access.
-Card cardA = deckA?.Get(1); // Get card at 1 if deckA is not null.
-// Otherwise it will return null.
-
-// You can make use of both above operators as such:
-int length = arr?.Length ?? 0; // If array is not null, get length otherwise 0.
-
-
 /*** CONSTRUCTOR CHAINING ***/
 
 public Card()

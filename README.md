@@ -217,6 +217,39 @@ struct Point
 }
 ```
 
+### Nullable
+
+ValueTypes cannot be assigned null. They must be wrapped in Nullable<T>.
+
+```cs
+System.Nullable<int> i = null;
+```
+
+There is a convenient shorthand for this (?).
+```cs
+int? i = null;
+bool? b = null;
+float? t = 0.1f;
+```
+
+# Null Operators
+
+### Null Coalescing Operator (??)
+_Returns an alternate value on null._
+
+```cs
+Card cardB = cardA ?? new Card("2C"); // If cardA is null, return new Card.
+```
+
+### Null Conditional Operator (?.)
+_Provides safe method access. Also known as "Elvis operator."_
+
+```cs
+Card cardA = deckA?.Get(1);
+```
+
+If `deckA` turns out to be null, it will return null and not call `Get()`.
+
 # Overflow Checking
 
 You can use the `checked` keyword to carry out a checked cast, which checks for numeric overflow when narrowing a scope.
