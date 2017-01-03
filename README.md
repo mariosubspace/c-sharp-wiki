@@ -44,3 +44,106 @@ With "interpolated" strings, variables can be referenced in the string and filte
 ```cs
 string p = $"myVariable has value {myVariable | expression}."
 ```
+
+# Parameters
+
+### Modifiers
+
+* `out` - method _must_ assign a value to the argument before returning. Not necessary for caller to initialize variable.
+* `ref` - method _may_ assign a value to the argument. Necessary for caller to initialize variable.
+* `params` - list of parameters.
+
+###### Example 1 (out)
+
+Definition:
+```cs
+void Add(int a, int b, out int sum)
+{
+  sum = a + b;
+}
+```
+
+Invocation:
+```cs
+int sum;
+Add(4, 5, out sum);
+```
+
+###### Example 2 (ref)
+
+Definition:
+```cs
+void Swap(ref Card a, ref Card b)
+{
+  Card tmp = a;
+  a = b;
+  b = tmp;
+}
+```
+
+Invocation:
+```cs
+Card a = new Card("KD");
+Card b = new Card("9D");
+Swap (ref a, ref b);
+```
+
+###### Example 3 (params)
+
+Definition:
+```cs
+int Sum(params int[] nums)
+{
+  int sum = 0;
+  foreach (int i in nums)
+  {
+    sum += i;
+  }
+  return sum;
+}
+```
+
+Invocation:
+```cs
+int result = Sum(1, 2, 3, 4);
+```
+
+### Default Parameters
+
+```cs
+void LogEvent(string msg, string tag = "Default", Color color = Color.blue);
+```
+
+You can use **named parameters** to feed arguments out of order.
+
+```cs
+LogEvent(tag: "Timing");
+```
+
+Unnamed, ordered parameters must come first though.
+
+```cs
+LogEvent(msg, color: Color.red);
+```
+
+# Overflow Checking
+
+You can use the `checked` keyword to carry out a checked cast, which checks for numeric overflow when narrowing a scope.
+
+Block form:
+```cs
+checked
+{
+  byte a = (byte)someIntegerA;
+  byte b = (byte)someIntegerB;
+}
+```
+
+Inline form:
+```cs
+checked(byte a = (byte)someIntegerA);
+```
+
+If you can enabled overflow checking project-wide, you can use the `unchecked` keyword in a similar fashion to ignore checking.
+
+The project-wide setting is usually in "Build Settings > Check for arithmetic overflow/underflow".
