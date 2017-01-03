@@ -1,11 +1,8 @@
-Some notes following the book "C# 6.0 and the .NET 4.6 Framework".  
-This useful mostly for review if you just need to glance at some topics.  
-
 # Main
 
 Some variations of the Main method.
 
-```csharp
+```cs
 static void Main() { }
 static int Main() { return 0; }
 static int Main(string[] args) { return 0; }
@@ -15,7 +12,7 @@ Command-line args can also be retrieved using `System.Environment.GetCommandLine
 
 # Console I/O
 
-```csharp
+```cs
 Console.WriteLine();
 Console.ReadLine();
 ```
@@ -24,7 +21,7 @@ Console.ReadLine();
 
 ### Formatting
 
-```csharp
+```cs
 string.Format("{0} {1} {2}", a, b, c);
 string.Format("{0:d9}", someNumber);
 ```
@@ -35,7 +32,7 @@ The second example shows how specific formatting can be applied. That is, limiti
 
 With "verbatim" strings, no escaping is done (\n, \t, etc).
 
-```csharp
+```cs
 string v = @"This is a ""verbatim"" string. Backslashes, \, are not escaped.";
 ```
 
@@ -44,6 +41,6 @@ _.NET 4.6+_
 
 With "interpolated" strings, variables can be referenced in the string and filtered.
 
-```csharp
+```cs
 string p = $"myVariable has value {myVariable | expression}."
 ```
