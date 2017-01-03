@@ -471,7 +471,7 @@ class SomeClass : IClashing, IAlsoClashing
 }
 ```
 
-You need to case the object to the interface type to use these clashing methods.
+You need to explicitly cast the object to the interface type to use the clashing methods.
 ```cs
 (someClass as IClashing)?.ClashingMethod();
 
@@ -565,7 +565,7 @@ foreach (Item it in someClass) {}
 foreach (Item it in someClass.GetReverseEnumerator()) {}
 ```
 
-### The "Yield" Keyword
+### The 'Yield' Keyword
 
 When you use the yield keyword in a statement, you indicate that the method,
 operator, or "get" accessor in which it appears is an iterator. Using yield
