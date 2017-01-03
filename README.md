@@ -45,6 +45,36 @@ With "interpolated" strings, variables can be referenced in the string and filte
 string p = $"myVariable has value {myVariable | expression}."
 ```
 
+# Arrays
+
+Various ways to initialize.
+```cs
+int[] a = {1, 2, 3};
+int[] b = new int[] {1, 2, 3};
+int[] c = new int[3];
+```
+
+Implicitly-typed
+```cs
+var a = new[] {1, 2, 3};
+```
+
+### Matrix
+
+```cs
+int[,] mat = new int[3, 4];
+```
+
+### Jagged Array
+
+```cs
+int[][] jag = new int[3][];
+for (int i = 0; i < 3; ++i)
+{
+  jag[i] = new int[4];
+}
+```
+
 # Parameters
 
 ### Modifiers
@@ -124,6 +154,35 @@ Unnamed, ordered parameters must come first though.
 
 ```cs
 LogEvent(msg, color: Color.red);
+```
+
+# Enums
+
+```cs
+enum MyEnum { Yo }
+```
+
+```cs
+enum MyEnum
+{
+  Three = 3, // Will start with value 3.
+  Four,
+  Five
+}
+```
+
+By default, enums use the `System.Int32` (C# `int`) type. You can change this as follows.
+```cs
+enum MyEnum : byte
+{
+  MyByte
+}
+```
+
+You can get the name as a string or raw value like this.
+```cs
+MyEnum.Three.ToString(); // "Three"
+(int)MyEnum.Three; // 3
 ```
 
 # Overflow Checking
