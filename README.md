@@ -187,7 +187,7 @@ MyEnum.Three.ToString(); // "Three"
 
 # Value Types
 
-* `ValueType`s are extended from `Object`.
+* ValueTypes are extended from `Object`.
 * ValueTypes declare their memory on the stack instead of the heap. This means that
 a ValueType will be deallocated on exiting its scope in which it was defined.
 In contrast to the managed heap where it would have to wait to be garbage collected.
