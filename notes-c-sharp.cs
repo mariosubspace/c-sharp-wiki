@@ -1,36 +1,4 @@
 
-/*** VALUE TYPES ***/
-
-// Structs cannot extend classes, or override the default constructor.
-
-// [ValueTypes] are extended from object.
-// ValueTypes declare their memory on the [stack] instead of the heap.
-//  This means that a ValueType will be deallocated on exiting its scope in
-//  which it was defined. In contrast to the managed heap where it would have
-//  to wait to be garbage collected.
-
-// Primitive types, enums, and structs are implemented using ValueTypes.
-
-// ValueTypes are copied member-by-member when assigned to a variable or
-//  passed as an argument. If a member is a ReferenceType (what classes use)
-//  then only it's reference will be copied unless IClonable is implemented
-//  by the ReferenceType.
-
-
-// Side note (quirk with structs): If you have private fields and properties
-// in a struct and a custom constructor, you need to call the default
-// constructor in all custom constructors to initialize the fields with
-// default values.
-struct Point
-{
-  private int X { get; set; }
-  private int Y { get; set; }
-  private string label;
-
-  public Point(string label) : this()
-  { }
-}
-
 /*** NULLABLE ***/
 
 // ValueTypes cannot be assigned null. They must be wrapped in Nullable<T>.

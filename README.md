@@ -185,6 +185,38 @@ MyEnum.Three.ToString(); // "Three"
 (int)MyEnum.Three; // 3
 ```
 
+# Value Types
+
+* `ValueType`s are extended from `Object`.
+* ValueTypes declare their memory on the stack instead of the heap. This means that
+a ValueType will be deallocated on exiting its scope in which it was defined.
+In contrast to the managed heap where it would have to wait to be garbage collected.
+* Primitive types, enums, and structs are implemented using ValueTypes.
+* ValueTypes are copied member-by-member when assigned to a variable or passed as an
+argument. If a member is a ReferenceType (what classes use) then only its reference
+will be copied unless `IClonable` is implemented by the ReferenceType.
+
+### Structs
+
+Structs cannot extend classes, or override the default constructor.
+
+Quirk: If you have private fields and properties in a struct with a custom constructor, then you need to call
+the default constructor in all custom constructors to initialize the fields with default values.
+
+```cs
+struct Point
+{
+  private int X { get; set; }
+  private int Y { get; set; }
+  private string label;
+
+  public Point(string label) : this()
+  {
+    this.label = label;
+  }
+}
+```
+
 # Overflow Checking
 
 You can use the `checked` keyword to carry out a checked cast, which checks for numeric overflow when narrowing a scope.
