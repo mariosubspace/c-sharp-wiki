@@ -450,6 +450,147 @@ class AnotherClass : MyAbstractClass
 }
 ```
 
+# Interfaces
+
+C# interfaces are similar to Java interfaces.
+
+```cs
+public interface IClashing
+{
+  public void ClashingMethod();
+}
+```
+
+If by chance you have methods in different interfaces that clash, you can define
+them explicitly.
+```cs
+class SomeClass : IClashing, IAlsoClashing
+{
+  public void IClashing.ClashingMethod() { }
+  public void IAlsoClashing.ClashingMethod() { }
+}
+```
+
+You need to case the object to the interface type to use these clashing methods.
+```cs
+(someClass as IClashing)?.ClashingMethod();
+
+IClashing ic = ((IClashing)someClass);
+if (ic) ic.ClashingMethod();
+```
+
+If you just define the unqualified clashing method, it will override all of them.
+
+### ICloneable
+
+C#'s object class defines a protected `MemberwiseClone()` method that copies an
+object by copying the members.
+
+To perform a deep copy you can utilize `ICloneable`.
+```cs
+public interface ICloneable
+{
+  object Clone(); // Just create a new object and copy the values yourself.
+}
+```
+
+### IComparable and IComparer
+
+`IComparable` is notable utilized by `Arrays.Sort`.
+```cs
+public interface IComparable
+{
+  int CompareTo(object o); // -1 (lt), 0 (eq), 1 (gt).
+}
+```
+
+`IComparer` is typically defined on a helper class, (e.g., ISBNComparer.Compare(Book a, Book b)).
+`Arrays.Sort` also can use this: `Arrays.Sort(books, new ISBNComparer())`.
+```cs
+public interface IComparer
+{
+  int Compare(object a, object b);
+}
+```
+
+# IEnumerable, IEnumerator, Iterators, and Yield
+
+Note: these examples don't use the generic versions. Use the generic versions to
+prevent penalties incurred by auto-boxing.
+
+```cs
+public interface IEnumerable
+{
+  IEnumerator GetEnumerator(); // Used by the foreach loop.
+}
+
+public interface IEnumerator
+{
+  bool MoveNext(); // Advance the cursor position.
+  object Current() { get; } // Get the current item.
+  void Reset(); // Reset the cursor.
+}
+
+public class SomeClass : IEnumerable
+{
+  // ...
+  // This is a special "iterator" method.
+  public IEnumerator GetEnumerator()
+  {
+    for (var i = 0; i < items.Length; ++i)
+    {
+		 // The compiler automatically generates a nested IEnumerator that
+		 // keeps track of execution, and returns items[i] for Current.
+		 yield return items[i];
+		 // You cannot call Reset on an instance of this generated IEnumerator,
+		 // you'll have to get a new instance of it.
+    }
+  }
+
+  // This is a "named iterator" method.
+  public IEnumerator GetReverseEnumerator(string msg)
+  {
+    Console.WriteLine("Named iterators can receive parameters: " + msg);
+    for (var i = items.Length-1; i >= 0; --i)
+    {
+      yield return items[i];
+    }
+  }
+}
+```
+
+You can use the iterators in a `foreach` loop.
+```cs
+foreach (Item it in someClass) {}
+foreach (Item it in someClass.GetReverseEnumerator()) {}
+```
+
+### The "Yield" Keyword
+
+When you use the yield keyword in a statement, you indicate that the method,
+operator, or "get" accessor in which it appears is an iterator. Using yield
+to define an iterator removes the need for an explicit extra class (the class
+that holds the state for an enumeration, see IEnumerator<T>)
+
+* `yield return` - return each element one at a time.  
+* `yield break` - end the interation. (I'm unclear exactly what this does, because
+  the iterator will already stop when the method ends.)  
+
+You consume an iterator by using a foreach statement or LINQ query.
+Each iteration of the foreach loop calls the iterator. When a
+`yield return` statement is reached in the iterator method, the expression is
+returned, and the current location in code is retained. Execution is
+restarted from that location the next time that the iterator function is
+called.
+
+`yield` is not a reserved word and has special meaning only when
+it is used before a `return` or `break` keyword.
+
+An iterator method cannot have any `ref` or `out` parameters.
+
+An implicit conversion must exist from the expression type in the `yield return`
+statement to the return type of the iterator.
+
 # Class Cast Checking
 
 ### The 'AS' Keyword
@@ -479,6 +620,60 @@ public new void MyMethod() { }
 You can still access the parent's original member by explicit casting.
 ```cs
 ((Parent)child).MyMethod();
+```
+
+# Exceptions
+
+Fatal system exceptions extend `SystemException` and are thrown by the CLR. Extend
+`ApplicationException`, or just `Exception`, for app-related exceptions.
+
+You don't have to specify an exception in try-catch.
+```cs
+try { }
+catch { }
+```
+
+If you do, the syntax is the same as in Java.
+```cs
+try { }
+catch (Exception e) { }
+```
+
+You can rethrow an exception by just calling throw in the catch block.
+```cs
+try {}
+catch
+{
+  // Stuff.
+  throw;
+}
+```
+
+Throwing exceptions is the same as in Java too.
+```cs
+throw new SomeException();
+```
+
+If an exception happens while handling another, the proper practice is to shove
+the inner exception in a new one of the parent type.
+```cs
+try { }
+catch (CustomException ce)
+{
+  try { // Risky inner expression. }
+  catch (Exception ie)
+  {
+    throw new CustomException(ce.Message, ie);
+  }
+}
+```
+
+### Exception Filters
+
+Use `when` to conditionally run code in a catch block.
+```cs
+try {}
+catch (Exception e) when (isDebuggingOn) {}
 ```
 
 # Overflow Checking
