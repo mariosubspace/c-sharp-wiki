@@ -273,16 +273,12 @@ public Card() : this('2', 'C') { } // Use master constructor.
 
 ### Static
 
-You can initialize static variables with the static constructor.
+You can initialize static variables with the static constructor. This is called only
+once on first instantiation of the class, or on static member access.
 
 ```cs
-static MyStaticConstructor()
-{
-  // No access modifiers allowed.
-}
+static MyStaticConstructor() { }
 ```
-
-This is called only once on first instantiation of the class, or on static member access.
 
 
 
