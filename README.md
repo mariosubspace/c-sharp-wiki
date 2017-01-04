@@ -1242,7 +1242,7 @@ with extension methods provided by LINQ. Some are: `ToArray<T>()`,
   * `Count()`, `Reverse()`, `Intersect(otherRes)`,
     `Union(otherRes)`, `Concat(otherRes)`, `Distinct()`,
     `Max()`, `Min()`, `Average()`, `Sum()`.  
-* LINQ queries are shorthand an actually implemented by a bunch of extension methods (i.e.,
+* LINQ queries are shorthand and actually implemented by a bunch of extension methods (i.e.,
   `Where(Func<T> fn)`, `Select(Func<T> fn)`, etc).  
 
 Also, if you have a non-generic collection (like `ArrayList`) you can use `OfType<T>()`
@@ -1263,10 +1263,42 @@ List<int> myList2 = myList.OfType<int>();
 var anon = new { Title = "Hello", Author = "Unknown" };
 ```
 
-* Anonymous types override ToString(), GetHashCode(), and Equals() to  
+* Anonymous types override `ToString()`, `GetHashCode()`, and `Equals()` to  
 perform value-based equality checking.
-* The == operator compares by reference though.  
+* The `==` operator compares by reference though.  
 * Properties of an anonymous type are read-only.
+
+
+
+# Attributes
+
+```cs
+[Serializable]
+public class MyClass
+{
+  private int myField;
+
+  [NotSerialized]
+  private string myBrand;
+}
+```
+
+### C# Attribute Shorthand
+
+By convention, attribute classes are suffixed with 'Attribute'. For example,
+`SerializableAttribute`. However, C# allows you to leave out the word 'Attribute'
+when referring to it with the `[...]` syntax.
+
+
+
+# Object Lifetime Stuff
+
+* `Finalize()` is called when an object is garbage collected.  
+  * In C# you define this like a C++ destructor `~MyClass()` instead of overriding `Finalize()`.  
+  * This is not usually implemented.  
+* `IDisposable` defines the `Dispose()` method.  
+  * This is called manually by the client when finished to release resources.  
+* `Lazy<T>` is a wrapper class that implements lazy initialization.  
 
 
 
