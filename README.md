@@ -1219,23 +1219,7 @@ var subset =
   where //...
 ```
 
-* LINQ queries return various types which all implement IEnumerator<T>.  
-* _Deferred execution_: LINQ results are not evaluated until you actually
-iterate over the sequence.  
-* _Immediate execution_: You can return a snapshot of the result sequence
-with extension methods provided by LINQ. Some are: ToArray<T>(),
-ToDictionary<TSource, TKey>(), and ToList<T>().  
-
-If you have a non-generic collection (like `ArrayList`) you can use `OfType`
-to convert (and filter) it to a generic collection.
-```cs
-ArrayList myList = new ArrayList();
-myList.AddRange(new object[] { 4, "g", new Pineapple(), 88 });
-
-var myListG = myList.OfType<int>(); // Make typed array of ints from myList.
-```
-
-More expression examples:
+More examples:
 ```cs
 var res = from n in numList select n; // Most basic.
 
@@ -1244,6 +1228,22 @@ var res = from n in numList where n>0 && n<10 orderby n descending select n;
 
 // Projection: return a subset type. In this case as an anonymous type.
 var res = from book in bookList select new {book.Title, book.Author};
+```
+
+* LINQ queries return various types which all implement `IEnumerator<T>`.  
+* _Deferred execution_: LINQ results are not evaluated until you actually
+iterate over the sequence.  
+* _Immediate execution_: You can return a snapshot of the result sequence
+with extension methods provided by LINQ. Some are: `ToArray<T>()`,
+`ToDictionary<TSource, TKey>()`, and `ToList<T>()`.  
+
+If you have a non-generic collection (like `ArrayList`) you can use `OfType<T>()`
+to convert (and filter) it to a generic collection.
+```cs
+ArrayList myList = new ArrayList();
+myList.AddRange(new object[] { 4, "g", new Pineapple(), 88 });
+
+var myListG = myList.OfType<int>(); // Make typed array of ints from myList.
 ```
 
 * Other operators are (`join`, `on`, `equals`, `into`, `group`, `by`).  
