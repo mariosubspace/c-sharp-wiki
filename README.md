@@ -1212,14 +1212,14 @@ IEnumerable<string> subset =
   select game;
 ```
 
-Cleaner (and recommended) is to use implicit typing.
+It's recommended to use implicit typing instead of `IEnumerator<T>`.
 ```cs
 var subset =
   from game in games
   where //...
 ```
 
-More examples:
+More query examples:
 ```cs
 // Most basic.
 var res = from n in numList select n;
@@ -1237,16 +1237,6 @@ iterate over the sequence.
 * _Immediate execution_: You can return a snapshot of the result sequence
 with extension methods provided by LINQ. Some are: `ToArray<T>()`,
 `ToDictionary<TSource, TKey>()`, and `ToList<T>()`.  
-
-If you have a non-generic collection (like `ArrayList`) you can use `OfType<T>()`
-to convert (and filter) it to a generic collection.
-```cs
-ArrayList myList = new ArrayList();
-myList.AddRange(new object[] { 4, "g", new Pineapple(), 88 });
-
-var myListG = myList.OfType<int>(); // Make typed array of ints from myList.
-```
-
 * Other operators are (`join`, `on`, `equals`, `into`, `group`, `by`).  
 * There's also aggregation and set extension methods too:  
   * `Count()`, `Reverse()`, `Intersect(otherRes)`,
@@ -1254,6 +1244,16 @@ var myListG = myList.OfType<int>(); // Make typed array of ints from myList.
     `Max()`, `Min()`, `Average()`, `Sum()`.  
 * LINQ queries are shorthand an actually implemented by a bunch of extension methods (i.e.,
   `Where(Func<T> fn)`, `Select(Func<T> fn)`, etc).  
+
+Also, if you have a non-generic collection (like `ArrayList`) you can use `OfType<T>()`
+to convert (and filter) it to a generic collection.
+```cs
+ArrayList myList = new ArrayList();
+myList.AddRange(new object[] { 4, "g", new Pineapple(), 88 });
+
+// Create List<T> from integers in myList.
+List<int> myList2 = myList.OfType<int>();
+```
 
 
 
