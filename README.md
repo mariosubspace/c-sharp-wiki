@@ -608,6 +608,26 @@ if (someObject is Deck)
 }
 ```
 
+# Boxing
+
+Every time you assign a `ValueType` to a `ReferenceType`, e.g.,
+
+```cs
+int f = 5;
+object oa = f;
+```
+
+C# does a 'box' operation: allocates an object on the heap and moves the value from the stack
+to the new object.
+
+C# does an 'unbox' operation to do the inverse, and requires casting:
+
+```cs
+int g = (int)oa;
+```
+
+This is very inefficient speed-wise and memory-wise.
+
 # Shadowing
 
 Instead of overriding, you can completely replace (shadow) the parent method, property or field.
@@ -659,7 +679,7 @@ the inner exception in a new one of the parent type.
 try { }
 catch (CustomException ce)
 {
-  try { // Risky inner expression. }
+  try { }
   catch (Exception ie)
   {
     throw new CustomException(ce.Message, ie);
@@ -674,6 +694,85 @@ Use `when` to conditionally run code in a catch block.
 try {}
 catch (Exception e) when (isDebuggingOn) {}
 ```
+
+# Generics
+
+Generics provide better performance because they prevent boxing or unboxing
+penalties when storing ValueTypes.
+
+```cs
+// Generic method.
+void AddToList<T>(T item)
+{
+  Console.Log("Adding item of type " + typeof(T));
+}
+
+// Generic struct.
+public struct Point<T>
+{
+  public void ResetPoint()
+  {
+    x = default(T); // Sets the default value w.r.t. the generic type.
+    y = default(T);
+  }
+}
+```
+
+### Generic Constraints
+
+Generic class using constraints on the generic type.
+```cs
+public class MyGenericClass<T> where T : class, IDrawable, new()
+{ }
+```
+
+**Possible Constraints:**
+* `struct` - ValueTypes  
+* `class` - ReferenceTypes  
+* `new()` - Must have a default ctor. Must be last in the list.  
+* `MyCustomType`  
+* `IMyInterface` - Can have multiple interface constraints.  
+* `U` - Depends on generic type 'U' (generic param. U must also specified). Does not have to be letter 'U' of course.  
+
+```cs
+class MyGeneric<T, U>
+  where T : Set<U>, ISomeInterface
+  where U : struct
+  { }
+```
+
+Notice the `where TypeParam : [constraints]` sections are _not_ separated by commas.
+
+### The System.Collection.Generics Namespace
+
+#### Generic Interfaces
+
+* `ICollection<T>` - Defines general characteristics (e.g., size, enumeration, and thread saftey)
+for all generic collection types.  
+* `IComparer<T>`  
+* `IDictionary<T>` - Allows a generic collection object to represent its contents using key-value pairs.  
+* `IEnumerable<T>`  
+* `IEnumerator<T>`  
+* `IList<T>`  
+* `ISet<T>`  
+
+#### Generic Collections
+
+* `Dictionary<TKey, TValue>`  
+* `LinkedList<T>`  
+* `List<T>`  
+* `Queue<T>`  
+* `SortedDictionary<TKey, TValue>`  
+* `SortedSet<T>`  
+* `Stack<T>`
+
+### The System.Collections.ObjectModel Namespace
+
+This contains a couple of important collection objects that notify listeners when the collection is modified.
+
+* `ObservableCollection<T>`  
+* `ReadOnlyObservableCollection<T>`  
+
 
 # Overflow Checking
 
