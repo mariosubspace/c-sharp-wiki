@@ -10,12 +10,16 @@ static int Main(string[] args) { return 0; }
 
 Command-line args can also be retrieved using `System.Environment.GetCommandLineArgs()`.
 
+
+
 # Console I/O
 
 ```cs
 Console.WriteLine();
 Console.ReadLine();
 ```
+
+
 
 # Strings
 
@@ -44,6 +48,8 @@ With "interpolated" strings, variables can be referenced in the string and filte
 ```cs
 string p = $"myVariable has value {myVariable | expression}."
 ```
+
+
 
 # Arrays
 
@@ -75,6 +81,8 @@ for (int i = 0; i < 3; ++i)
 }
 ```
 
+
+
 # Parameters
 
 ### Modifiers
@@ -85,7 +93,6 @@ for (int i = 0; i < 3; ++i)
 
 ###### Example 1 (out)
 
-Definition:
 ```cs
 void Add(int a, int b, out int sum)
 {
@@ -93,7 +100,6 @@ void Add(int a, int b, out int sum)
 }
 ```
 
-Invocation:
 ```cs
 int sum;
 Add(4, 5, out sum);
@@ -101,7 +107,6 @@ Add(4, 5, out sum);
 
 ###### Example 2 (ref)
 
-Definition:
 ```cs
 void Swap(ref Card a, ref Card b)
 {
@@ -111,7 +116,6 @@ void Swap(ref Card a, ref Card b)
 }
 ```
 
-Invocation:
 ```cs
 Card a = new Card("KD");
 Card b = new Card("9D");
@@ -120,7 +124,6 @@ Swap (ref a, ref b);
 
 ###### Example 3 (params)
 
-Definition:
 ```cs
 int Sum(params int[] nums)
 {
@@ -133,7 +136,6 @@ int Sum(params int[] nums)
 }
 ```
 
-Invocation:
 ```cs
 int result = Sum(1, 2, 3, 4);
 ```
@@ -157,6 +159,8 @@ LogEvent(msg, color: Color.red);
 ```
 
 You can also use default parameters in constructors above .NET 4.0.
+
+
 
 # Enums
 
@@ -186,6 +190,8 @@ You can get the name as a string or raw value like this.
 MyEnum.Three.ToString(); // "Three"
 (int)MyEnum.Three; // 3
 ```
+
+
 
 # Value Types
 
@@ -234,6 +240,8 @@ bool? b = null;
 float? t = 0.1f;
 ```
 
+
+
 # Null Operators
 
 ### Null Coalescing Operator (??)
@@ -251,6 +259,8 @@ Card cardA = deckA?.Get(1);
 ```
 
 If `deckA` turns out to be null, it will return null and not call `Get()`.
+
+
 
 # Constructors
 
@@ -274,6 +284,8 @@ static MyStaticConstructor()
 
 This is called only once on first instantiation of the class, or on static member access.
 
+
+
 # Static Import
 
 You can import static members with `using static`.
@@ -281,6 +293,8 @@ You can import static members with `using static`.
 ```cs
 using static ClassWithStaticMembers;
 ```
+
+
 
 # Access Modifiers
 
@@ -293,22 +307,17 @@ using static ClassWithStaticMembers;
 * Members are implicitly private.  
 
 
+
 # Properties
+
+Properties are an implementation of the accessor/mutator (getter/setter) pattern.
 
 A basic .NET property:
 ```cs
-int myInt;
-
 public int SomeInt
 {
-  get
-  {
-    return myInt;
-  }
-  set
-  {
-    myInt = value;
-  }
+  get { return myInt; }
+  set {  myInt = value; }
 }
 ```
 
@@ -328,6 +337,8 @@ value in the constructor. Alternatively, C# 6.0 includes a special syntax.
 public string SomeString { get; set; } = "Default value.";
 ```
 
+
+
 # Object Initialization Syntax
 
 You can use object-literal notation in constructing an object.
@@ -339,6 +350,7 @@ Card c = new Card(suit: 'D') { Rank = '5' }; // You can get crazy with this.
 
 The names in the brackets are public fields of the Card class, not the names
 of the parameters in the constructor.
+
 
 
 # Read-Only Fields
@@ -371,6 +383,8 @@ static MyBrand()
 }
 ```
 
+
+
 # Partial classes
 
 The `partial` keyword allows classes to be split among multiple files. The file names don't matter,
@@ -396,12 +410,16 @@ partial class Cookie
 }
 ```
 
+
+
 # The 'Sealed' Keyword
 
 This keyword prevents a class from being extended.
 ```cs
 sealed class MySealedClass { }
 ```
+
+
 
 # The 'Base' Keyword
 
@@ -414,6 +432,8 @@ public MyClass(int a, string b) : base(a)
 ```
 
 You of course can use `base` to access members of the base class as well.
+
+
 
 # Polymorphism
 
@@ -435,6 +455,8 @@ You can prevent a method from further being overridden by sealing it.
 public override sealed void OverrideableMethod() { }
 ```
 
+
+
 # Abstract Classes
 
 ```cs
@@ -448,6 +470,8 @@ class AnotherClass : MyAbstractClass
   public override void AbstractMethod() { /* ... */ }
 }
 ```
+
+
 
 # Interfaces
 
@@ -512,6 +536,8 @@ public interface IComparer
 }
 ```
 
+
+
 # IEnumerable, IEnumerator, Iterators, and Yield
 
 Note: these examples don't use the generic versions. Use the generic versions to
@@ -572,8 +598,7 @@ to define an iterator removes the need for an explicit extra class (the class
 that holds the state for an enumeration, see IEnumerator<T>)
 
 * `yield return` - return each element one at a time.  
-* `yield break` - end the interation. (I'm unclear exactly what this does, because
-  the iterator will already stop when the method ends.)  
+* `yield break` - end iteration.
 
 You consume an iterator by using a foreach statement or LINQ query.
 Each iteration of the foreach loop calls the iterator. When a
@@ -589,6 +614,8 @@ An iterator method cannot have any `ref` or `out` parameters.
 
 An implicit conversion must exist from the expression type in the `yield return`
 statement to the return type of the iterator.
+
+
 
 # Class Cast Checking
 
@@ -607,6 +634,8 @@ if (someObject is Deck)
   ((Deck)someObject).Shuffle();
 }
 ```
+
+
 
 # Boxing
 
@@ -628,6 +657,8 @@ int g = (int)oa;
 
 This is very inefficient speed-wise and memory-wise.
 
+
+
 # Shadowing
 
 Instead of overriding, you can completely replace (shadow) the parent method, property or field.
@@ -640,6 +671,8 @@ You can still access the parent's original member by explicit casting.
 ```cs
 ((Parent)child).MyMethod();
 ```
+
+
 
 # Exceptions
 
@@ -694,6 +727,8 @@ Use `when` to conditionally run code in a catch block.
 try {}
 catch (Exception e) when (isDebuggingOn) {}
 ```
+
+
 
 # Generics
 
@@ -772,6 +807,228 @@ This contains a couple of important collection objects that notify listeners whe
 
 * `ObservableCollection<T>`  
 * `ReadOnlyObservableCollection<T>`  
+
+
+
+# Delegates
+
+```cs
+// Declaring a delegate type.
+public delegate string MyDelegate(bool b, int n);
+
+// Declaring and initializing a delegate variable.
+MyDelegate mdel = new MyDelegate(SomeMethod);
+
+// Alternatively, you can just supply the method name.
+// This is called "method group conversion syntax".
+MyDelegate mdel = SomeMethod;
+
+// Delegates can be combined to call multiple methods.
+mdel += AnotherMethod;
+mdel += OrAnotherDelegate;
+
+// Invoking the delegate.
+mdel();
+```
+
+### Generic Delegates
+
+```cs
+public delegate void GenericDel<T>(T arg);
+
+public void MyFunc(string a) { }
+GenericDel<string> strTarget = MyFunc;
+```
+
+### Action<...> and Func<...>
+
+These two are out-of-the-box, generic delegate types for simplifying the definition of a delegate.
+
+#### Action<...>
+
+* Takes up to 16 arguments.  
+* Can only point to functions with a `void` return type.  
+
+```cs
+static void DisplayMessage(string msg, ConsoleColor col) { }
+Action<string, ConsoleColor> target = DisplayMessage;
+target("hello", ConsoleColor.Blue);
+```
+
+As you can see in the example, the types in the generic parameter list define the
+types of the parameters the delegate methods take in.
+
+#### Func<...>
+
+* Takes up to 16 arguments.  
+* The last generic parameter is the return type.
+
+```cs
+static string IntToString(int a) { }
+Func<int, string> target = IntToString;
+string s = target(5);
+```
+
+### Predicate<T>
+
+Defined in the System as such:
+```cs
+public delegate bool Predicate<T>(T obj);
+```
+
+This is used in places like `List.FindAll()`.
+
+### Events
+
+Events are a special kind of multicast delegate that can only be invoked
+from within the class or struct where they are declared (the publisher class).
+
+```cs
+public delegate string MyDelegate(int a);
+public event MyDelegate MyEvent;
+```
+
+### EventArgs
+
+Microsoft's recommended pattern for how to publish data with a delegate.
+
+```cs
+public delegate void MyDelegate(object sender, MyEventArgs e);
+public event MyDelegate MyEvent;
+
+public class MyEventArgs
+{
+  public MyEventArgs(string s) { Text = s; }
+  public string Text { get; private set; } // readonly
+}
+
+// Variation
+public class MyEventArgs
+{
+  public MyEventArgs(string s) { text = s; }
+  public readonly string text;
+}
+
+// Now when you raise an event to listeners. (In the publisher class...)
+MyEvent(this, new MyEventArgs("Hey, this is some event data."));
+```
+
+#### EventHandler<T>
+
+Given the recommended (object sender, EventArgs e) pattern, there is a generic
+event type Microsoft provides to streamline this.
+
+```cs
+public event EventHandler<MyEventArgs> MyEvent;
+```
+
+You don't need to define the delegate in this case.
+
+### Delegates: Behind the Scenes
+
+The compiler generates a class for a delegate type.
+```cs
+sealed class MyDelegate : System.MulticastDelegate
+{
+  // Basic synchronous invocation.
+	public string Invoke(bool b, int n);
+
+	// The other two are for asynchronous use.
+	public IAsyncResult BeginInvoke(bool b, int b, AsyncCallback cb, object state);
+	public string EndInvoke(IAsyncResult result);
+}
+```
+
+The `MulticastDelegate` class is defined as such:
+```cs
+public abstract class MulticastDelegate : Delegate
+{
+	// Returns the list of methods "pointed to"
+	public sealed override Delegate[] GetInvocationList();
+
+	// Overloaded operators.
+	public static bool operator ==(MulticastDelegate d1, MulticastDelegate d2);
+	public static bool operator !=(MulticastDelegate d1, MulticastDelegate d2);
+
+	// Used internally to manage the list of methods maintained by the delegate.
+	private IntPtr _invocationCount;
+	private object _invocationList;
+}
+```
+
+The `Delegate` class is defined as such:
+```cs
+public abstract class Delegate : ICloneable, ISerializable
+{
+	// Methods to interact with the list of functions.
+	public static Delegate Combine(params Delegate[] delegates);
+	public static Delegate Combine(Delegate a, Delegate b);
+	public static Delegate Remove(Delegate source, Delegate value);
+	public static Delegate RemoveAll(Delegate source, Delegate value);
+
+	// Overloaded operators.
+	public static bool operator ==(Delegate d1, Delegate d2);
+	public static bool operator !=(Delegate d1, Delegate d2);
+
+	// Properties that expose the delegate target.
+	public MethodInfo Method { get; }
+	public object Target { get; }
+}
+```
+
+* The '+=' operator is syntax sugar for the Combine() method.  
+* The '-=' operator is syntax sugar for the Remove() method.  
+* 'Method' gets target method details.  
+* 'Target' gets object details if the target method belongs to an instance.  
+
+
+
+# Anonymous Methods
+
+```cs
+someDelegateOrEvent += delegate {
+  Console.WriteLine("Anonymous method which ignores arguments.");
+}
+
+someDelegateOrEvent += delegate(int a, string b) {
+  Console.WriteLine("Anonymous method which accepts arguments.");
+}
+```
+
+* Cannot access `ref` or `out` parameters in the outer method.  
+* Cannot have local variables that are the same as in the outer method.  
+* Stuff in the outer class scope works as expected.  
+
+
+
+### Lambda Expressions
+
+Various forms of lambda expressions.
+```cs
+() => Console.WriteLine("Hello.");
+
+i => (i % 2) == 0
+
+(i) => (i % 2) == 0
+
+(int i) => (i % 2) == 0
+
+(a, b) => a + b
+
+(a) => {
+  Console.WriteLine(a);
+  return a + 1;
+}
+```
+
+As of .NET 4.6, you can use lambdas for member methods too.
+```cs
+class MyClass
+{
+  public int Add(int x, int y) => x + y;
+}
+```
+
 
 
 # Overflow Checking
