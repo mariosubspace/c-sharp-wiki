@@ -1221,7 +1221,8 @@ var subset =
 
 More examples:
 ```cs
-var res = from n in numList select n; // Most basic.
+// Most basic.
+var res = from n in numList select n;
 
 // Using many of the operators.
 var res = from n in numList where n>0 && n<10 orderby n descending select n;
