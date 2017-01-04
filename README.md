@@ -1027,6 +1027,258 @@ class MyClass
 
 
 
+# Indexer Methods
+
+Basic implementation.
+```cs
+public ReturnType this[int i]
+{
+  get { return (ReturnType)internalList[i]; }
+  set { internalList[i] = value; }
+}
+```
+
+Can use indexing by non-integer types too.
+```cs
+public ReturnType this[string s] {
+  /* ... */
+}
+```
+
+Multidimensional indexing.
+```cs
+public ReturnType this[string a, string b] {
+  /* ... */
+}
+```
+
+These can be overloaded so you can use multiple methods of indexing with your custom type.
+
+You can also specify them in an interface.
+```cs
+public interface IMyContainer
+{
+  string this[int index] { get; set; }
+}
+```
+
+
+
+# Operator Overloading
+
+Various operators in C# can be overloaded.
+
+```cs
+public static Point operator + (Point p1, Point p2) {
+  return new Point(p1.x + p2.x, p1.y + p2.y);
+}
+```
+
+With binary operators, you get the corresponding assignment operator for free.
+For example, with the above example you also get '+='.
+
+Both operands don't have to be the same type.
+```cs
+public static Point operator * (Point p1, float scalar)
+{
+  return new Point(p1.x * scalar, p1.y * scalar);
+}
+```
+
+If you do this though, do it both ways to support commutativity.
+```cs
+public static Point operator * (float scalar, Point p1)
+{
+  return new Point(p1.x * scalar, p1.y * scalar);
+}
+```
+
+You can override some unary operators, such as ++.
+```cs
+public static Point operator ++ (Point p)
+{
+  return new Point(p.x + 1, p.y + 1);
+}
+```
+
+In C++ you can override the pre/post increment/decrement operators
+separately. In C# you can't, but you get the correct behavior for free.
+
+
+
+# Conversion Methods
+
+Explicit.
+```cs
+public static explicit operator Square(Rectangle r)
+{
+  return new Square(r.Height);
+}
+```
+
+You can now explicitly cast from Rectangle to Square.
+```cs
+Rectangle myRectangle = new Rectangle(4, 4);
+Square mySquare = (Square)myRectangle;
+```
+
+Implicit.
+```cs
+public static implicit operator Rectangle(Square s)
+{
+  return new Rectangle(s.Length, s.Length);
+}
+```
+
+You can not implicitly cast from Square to Rectangle.
+```cs
+Square mySquare =  new Square(4);
+Rectangle myRectangle = mySquare;
+```
+
+In the implicit case, you also get the explicit cast for free.
+This makes sense because if it happens automatically, you should also
+be allowed to be verbose about it.
+```cs
+Rectangle myRectangle2 = (Rectangle)mySquare;
+```
+
+Conversion methods can be defined in structs as well.
+
+
+
+# Extension Methods
+
+* Extension methods must be defined in a static class, and must be static.  
+* These add methods to existing types.  
+* The target type is specified as the first parameter.  
+* Additional parameters are allowed.  
+
+```cs
+using System.Reflection;
+
+static class MyExtensions
+{
+  // Targeting the Rectangle type.
+  public static bool IsSquare(this Rectangle r)
+  {
+    return r.Height == r.Width;
+  }
+
+  // Targeting the int type.
+  public static int Add(this int a, int b)
+  {
+    return a + b;
+  }
+
+  // You can also define extension methods targeting interfaces.
+  public static void PrintAll(this System.Collections.IEnumerable iterator)
+  {
+    foreach (var item in iterator)
+    {
+      Console.WriteLine(item);
+    }
+  }
+}
+```
+```cs
+int myInt = 30;
+int result = myInt.Add(2); // Using an extension method from MyExtensions.
+```
+
+
+
+# Anonymous Types
+
+```cs
+var anon = new { Title = "Hello", Author = "Unknown" };
+```
+
+* Anonymous types override ToString(), GetHashCode(), and Equals() to  
+perform value-based equality checking.
+* The == operator compares by reference though.  
+* Properties of an anonymous type are read-only.
+
+
+
+# Pointer Types
+
+Though rarely used in C# developement, you can actually use pointers.  
+
+To use you need to:
+* Define the `/unsafe` flag on compilation: `csc /unsafe *.cs`  
+* Enable the 'Allow unsafe code' option in Visual Studio.  
+* Use the unsafe keyword for blocks and methods.  
+
+### 'unsafe'
+
+```cs
+class Program
+{
+  static void Main(string[] args)
+  {
+    unsafe
+    {
+      int myInt = 5;
+      Square(&myInt);
+    }
+  }
+
+  unsafe static void Square(int *n)
+  {
+    return *n *= *n;
+  }
+}
+```
+
+Entire struct is marked unsafe.
+```cs
+unsafe struct Node { /* ... */ }
+```
+
+```cs
+struct Node
+{
+  public int Value;
+  public unsafe Node* next; // Unsafe field.
+}
+```
+
+Unlike in C and C++, the * operator must be next to the type for pointer declaration, e.g.,  
+```cs
+public unsafe Node* left, right; // C#
+```
+instead of,
+```cs
+public Node *left, *right; // C, C++
+```
+
+### 'stackalloc'
+```cs
+char* p = stackalloc char[256]; // Declare memory on the stack.
+```
+
+### 'fixed'
+
+To prevent a `ReferenceType` from being swept or moved by the GC while
+you are using its address, use the `fixed` keyword.
+```cs
+fixed (MyRefType* p = &refVar)
+{
+  Console.Write(p->ToString());
+}
+```
+
+### 'sizeof'
+```cs
+Console.Write(sizeof(int));
+
+// Must be in an 'unsafe' block for custom types.
+unsafe { Console.Write(sizeof(Point)); }
+```
+
+
+
 # Overflow Checking
 
 You can use the `checked` keyword to carry out a checked cast, which checks for numeric overflow when narrowing a scope.
