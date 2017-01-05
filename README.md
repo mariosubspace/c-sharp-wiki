@@ -1270,6 +1270,48 @@ perform value-based equality checking.
 
 
 
+# Reflection
+
+Classes used for reflection are located in the `System.Reflection` namespace.
+
+* `Assembly` - Contains members that allow loading, investigation, and manipulation
+of an assembly.  
+* `AssemblyName` - Used to find details about the identity of an assembly.  
+* `EventInfo`  
+* `FieldInfo`  
+* `MemberInfo`  
+* `MethodInfo`  
+* `Module`  Provides access to a given module within a multifile assembly.  
+* `ParameterInfo`  
+* `PropertyInfo`  
+
+The `-Info` classes provide information and manipulation for those things.
+
+### System.Type
+
+The `Type` class is another class used heavily in reflection.
+
+To get a reference to a type you can use `typeof()` or `GetType()`.
+
+### Reflecting on Generic Types
+
+When calling `Type.GetType()` for a generic type, you must make use of a special syntax
+involving a "back tick" character.
+
+For example, for `System.Collections.Generic.List<T>`, do:
+
+``System.Collections.Generic.List`1``
+
+The number at the end is the number of generic parameters the type has.
+
+### Late Binding
+
+You can use `Assembly.Load()` to load in an assembly unknown at compile-time. Then,
+you can use `System.Activator.CreateInstance()` to create an instance of a class
+from that assembly using late-binding.
+
+
+
 # Attributes
 
 ```cs
@@ -1283,11 +1325,98 @@ public class MyClass
 }
 ```
 
+* Attributes are classes that derive from `System.Attribute`  
+* Attributes result in embedded metadata.  
+* Attributes are basically useless until another agent reflects upon them.  
+* Attributes are applied in C# using square brackets.  
+
+Constructor parameters may be supplied to an attribute, but the attribute is not actually
+instantiated until the parameters are reflected upon by another type or an external tool.
+
+### Custom Attributes
+
+```cs
+public sealed class MyCustomAttribute : System.Attribute
+{
+  public string Description { get; set; }
+
+  public MyCustomAttribute(string description)
+  {
+    Description = description;
+  }
+
+  public MyCustomAttribute() { }
+}
+```
+
+It is considered a .NET best practice to declare all custom attributes `sealed`.
+
+#### Named Property Syntax
+
+```cs
+[MyCustomAttribute(Description = "Who's description?")]
+public class MyClass { }
+```
+
+Attributes introduce a special "named property syntax" as shown in the example
+in the way the description is set. This is legal only if the attribute supplies a
+writable .NET property.
+
+#### Restricting Attribute Usage
+
+You can restrict what you can apply an attribute to with the `AttributeUsage` attribute.
+
+The `AttributeTargets` enum defines all the possible attribute targets.
+Multiple of these can be specified using the, `|`, operator to string them together.
+```cs
+public enum AttributeTargets
+{
+  All, Assembly, Class, Constructor,
+  Delegate, Enum, Event, Field,
+  GenericParameter, Interface, Method, Module,
+  Parameter, Property, ReturnValue, Struct
+}
+```
+
+* You can set the named property `AllowMultiple` to allow the attribute to be used
+more than once on the same item (default is `false`).  
+* You can specify whether the attribute should be inherited by derived classes
+using the `Inherited` named property (default is `true`).  
+
+```cs
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
+public sealed class MyOtherCustomAttribute { /* ... */ }
+```
+
 ### C# Attribute Shorthand
 
 By convention, attribute classes are suffixed with 'Attribute'. For example,
 `SerializableAttribute`. However, C# allows you to leave out the word 'Attribute'
 when referring to it with the `[...]` syntax.
+
+### Assembly-Level Attributes
+
+You can apply attributes to an entire assembly by specifying the `[assembly:]` tag
+in any class file and outside of the scope of any namespace.
+
+A good practice is to define these after imports and before the namespace and class
+definitions.
+
+Even better, Visual Studio projects typically define an `AssemblyInfo.cs` file, which can
+be viewed by expanding the _Properties_ icon of the _Solution Explorer_. This file is
+the perfect place to put assembly-level attributes.
+
+Some useful assembly-level attributes:
+* `[CLSCompliant(true)]` - make sure only CLS-compliant language features are used.  
+* `[AssemblyCompany]`  
+* `[AssemblyCopyright]`  
+* `[AssemblyCulture]`  
+* `[AssemblyDescription]`  
+* `[AssemblyKeyFile]` - The name of the file containing the key pair used to sign the
+assembly (i.e., establish a strong name).  
+* `[AssemblyProduct]`  
+* `[AssemblyTrademark]`  
+* `[AssemblyVersion]` - In the format "<major.minor.build.revision>".  
 
 
 
