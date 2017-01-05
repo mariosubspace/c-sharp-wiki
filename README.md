@@ -1281,7 +1281,7 @@ of an assembly.
 * `FieldInfo`  
 * `MemberInfo`  
 * `MethodInfo`  
-* `Module`  Provides access to a given module within a multifile assembly.  
+* `Module` - Provides access to a given module within a multifile assembly.  
 * `ParameterInfo`  
 * `PropertyInfo`  
 
@@ -1416,7 +1416,7 @@ Some useful assembly-level attributes:
 assembly (i.e., establish a strong name).  
 * `[AssemblyProduct]`  
 * `[AssemblyTrademark]`  
-* `[AssemblyVersion]` - In the format "<major.minor.build.revision>".  
+* `[AssemblyVersion]` - In the format "&lt;major.minor.build.revision&gt;".  
 
 
 
