@@ -1430,6 +1430,18 @@ assembly (i.e., establish a strong name).
 * `Lazy<T>` is a wrapper class that implements lazy initialization.  
 
 
+# Processes, AppDomains, and Object Contexts
+
+A process is, of course, a running program. Windows processes are split up into several logical sections.
+Each process has a _primary thread_ which is created when entering `Main()`.
+
+The `System.Diagnostics` namespace defines a number of types that allow you to programmatically interact
+with processes and various diagnostic-related types. The `System.Diagnostics.Process` class defines several
+useful methods and fields for interacting with a Windows process. This is pretty neat, you can look up and control
+pretty much any process.
+
+Some things you can access with `Process` are things like its PID, Name, Threads, Modules (`*.dll` and `*.exe`), and more.
+
 
 # Pointer Types
 
