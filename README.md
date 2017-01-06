@@ -1432,20 +1432,42 @@ assembly (i.e., establish a strong name).
 
 # Processes, AppDomains, and Object Contexts
 
-A process is, of course, a running program. Windows processes are split up into several logical sections.
-Each process has a _primary thread_ which is created when entering `Main()`.
+### Processes
 
 The `System.Diagnostics` namespace defines a number of types that allow you to programmatically interact
-with processes and various diagnostic-related types. The `System.Diagnostics.Process` class defines several
+with Windows processes and various diagnostic-related types. The `System.Diagnostics.Process` class defines several
 useful methods and fields for interacting with a Windows process. This is pretty neat, you can look up and control
-pretty much any process.
+pretty much any process. Some things you can access with `Process` are things like its PID, Name, Threads, Modules (`*.dll` and `*.exe`), and more.
 
-Some things you can access with `Process` are things like its PID, Name, Threads, Modules (`*.dll` and `*.exe`), and more.
+Each process has a _primary thread_ which is created when entering `Main()`.
+
+### AppDomains
+
+A Windows Process does not directly run an executable, instead applications run within an _application domain_.
+Application domains are logical partitions for assemblies and executables that are independent from one-another.
+A process can host several application domains, though, usually only the _default application domain_ is needed.
+The default domain is created automatically for a .NET executable.
+You can interact with application domains through the `System.AppDomain` class.
+
+### Object Contexts
+
+Each application domain also contains logical containers called _contexts_. These provide a context for
+certain objects to run under.
+
+* The default context is _context 0_.  
+* _Context-agile_ objects do not demand special contextual treatment.
+* _Context-bound_ objects need special contextual treatment.
+
+Context-bound objects have two main requirements. The first is that they are marked with an attribute from
+a special class of .NET attributes called _context attributes_. These attributes derive from the `ContextAttribute`
+base class. The other requirement is that the object derives from `ContextBoundObject`. Otherwise, the CLR
+might move the objects outside of its required context.
+
 
 
 # Pointer Types
 
-Though rarely used in C# developement, you can actually use pointers.  
+Though rarely used in C# development, you can actually use pointers.  
 
 To use you need to:
 * Define the `/unsafe` flag on compilation: `csc /unsafe *.cs`  
