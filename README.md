@@ -1,5 +1,7 @@
 Welcome! These are an assortment of notes on various topics. Use this for quick reference or review. It's by no means a tutorial or course of any kind!
 
+Go to the Wiki page [here](https://github.com/0x4d4147/C-Sharp-Wiki/wiki) or select something below.  
+
 * [Abstract Classes](https://github.com/MarioSubspace/notes-c-sharp/wiki/Abstract-Classes)  
 * [Access Modifiers](https://github.com/MarioSubspace/notes-c-sharp/wiki/Access-Modifiers)  
 * [Anonymous Methods](https://github.com/MarioSubspace/notes-c-sharp/wiki/Anonymous-Methods)  
