@@ -3,6 +3,8 @@ These notes cover only up to C# 6.
 If you want to catch up to the latest (currently C# 12 Nov 2023), or versions after 6,
 check out the [Version History](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70).  
 
+[Wiki Home.](https://github.com/mariosubspace/c-sharp-wiki/wiki)  
+
 * [Abstract Classes](https://github.com/MarioSubspace/notes-c-sharp/wiki/Abstract-Classes)  
 * [Access Modifiers](https://github.com/MarioSubspace/notes-c-sharp/wiki/Access-Modifiers)  
 * [Anonymous Methods](https://github.com/MarioSubspace/notes-c-sharp/wiki/Anonymous-Methods)  
