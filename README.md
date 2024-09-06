@@ -1,5 +1,3 @@
-Welcome! These are an assortment of notes on various topics. Use this for quick reference or review. It's by no means a tutorial or course of any kind!
-
 These notes cover only up to C# 6, which is totally capable of writing anything.
 But if you want to catch up to the latest (currently C# 12 Nov 2023), or versions after 6,
 check out the [Version History](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70).  
