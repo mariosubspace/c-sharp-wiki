@@ -1,4 +1,4 @@
-These notes cover only up to C# 6, which is totally capable of writing anything.
+These notes cover only up to C# 6 (and only a subset of that), which is totally capable of writing anything.
 But if you want to catch up to the latest (currently C# 12 Nov 2023), or versions after 6,
 check out the [Version History](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70).  
 
