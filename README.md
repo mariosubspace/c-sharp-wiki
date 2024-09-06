@@ -1,8 +1,7 @@
-These notes cover only up to C# 6 (and only a subset of that), which is totally capable of writing anything.
-But if you want to catch up to the latest (currently C# 12 Nov 2023), or versions after 6,
-check out the [Version History](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70).  
+These notes cover only up to C# 6.  
 
-Go to the Wiki page [here](https://github.com/0x4d4147/C-Sharp-Wiki/wiki) or select something below.  
+If you want to catch up to the latest (currently C# 12 Nov 2023), or versions after 6,
+check out the [Version History](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70).  
 
 * [Abstract Classes](https://github.com/MarioSubspace/notes-c-sharp/wiki/Abstract-Classes)  
 * [Access Modifiers](https://github.com/MarioSubspace/notes-c-sharp/wiki/Access-Modifiers)  
@@ -34,7 +33,7 @@ Go to the Wiki page [here](https://github.com/0x4d4147/C-Sharp-Wiki/wiki) or sel
 * [Main](https://github.com/MarioSubspace/notes-c-sharp/wiki/Main)  
 * [Null Operators](https://github.com/MarioSubspace/notes-c-sharp/wiki/Null-Operators)  
 * [Parameters](https://github.com/MarioSubspace/notes-c-sharp/wiki/Parameters)  
-* [Polymorphism](https://github.com/MarioSubspace/notes-c-sharp/wiki/Polymorphism)  
+* [Virtual Functions](https://github.com/MarioSubspace/notes-c-sharp/wiki/Virtual-Functions)  
 * [Properties](https://github.com/MarioSubspace/notes-c-sharp/wiki/Properties)  
 * [Reflection](https://github.com/MarioSubspace/notes-c-sharp/wiki/Reflection)  
 * [Serialization](https://github.com/MarioSubspace/notes-c-sharp/wiki/Serialization)  
@@ -46,6 +45,7 @@ Go to the Wiki page [here](https://github.com/0x4d4147/C-Sharp-Wiki/wiki) or sel
 * ["Base" Keyword](https://github.com/MarioSubspace/notes-c-sharp/wiki/"Base"-Keyword)  
 * ["Is" and "As"](https://github.com/MarioSubspace/notes-c-sharp/wiki/"Is"-and-"As")  
 * ["Sealed" Keyword](https://github.com/MarioSubspace/notes-c-sharp/wiki/"Sealed"-Keyword)  
+* [nameof expression](https://github.com/mariosubspace/c-sharp-wiki/wiki/nameof-expression)  
 
 ***   
 
